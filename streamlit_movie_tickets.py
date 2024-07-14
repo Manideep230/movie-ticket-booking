@@ -1,9 +1,10 @@
 import streamlit as st
 import sqlite3
 import pandas as pd
+from spellchecker import SpellChecker
 
 # SQLite Database connection details
-SQLITE_DB_PATH = 'movieDB.db'
+SQLITE_DB_PATH = 'C:/Users/Administrator/PycharmProjects/VirtusaMovieTicketBookingStreamlit/movieDB.db'
 
 # Establish database connection
 def get_sqlite_connection():
@@ -135,7 +136,10 @@ def get_user_bookings(user_id):
     bookings = c.fetchall()
     conn.close()
     return bookings
-    
+
+
+# Spellchecker
+spell = SpellChecker()
 
 # Initialize session state for the chat
 if 'messages' not in st.session_state:
