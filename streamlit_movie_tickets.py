@@ -1,10 +1,10 @@
 import streamlit as st
 import sqlite3
 import pandas as pd
-from spellchecker import SpellChecker
+import SpellChecker
 
 # SQLite Database connection details
-SQLITE_DB_PATH = 'C:/Users/Administrator/PycharmProjects/VirtusaMovieTicketBookingStreamlit/movieDB.db'
+SQLITE_DB_PATH = 'movieDB.db'
 
 # Establish database connection
 def get_sqlite_connection():
