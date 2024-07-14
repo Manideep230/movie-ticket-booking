@@ -1,7 +1,7 @@
 import streamlit as st
 import sqlite3
 import pandas as pd
-import SpellChecker
+from pyspellchecker import SpellChecker
 
 # SQLite Database connection details
 SQLITE_DB_PATH = 'movieDB.db'
