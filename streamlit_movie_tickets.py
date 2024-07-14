@@ -1,7 +1,6 @@
 import streamlit as st
 import sqlite3
 import pandas as pd
-from pyspellchecker import SpellChecker
 
 # SQLite Database connection details
 SQLITE_DB_PATH = 'movieDB.db'
@@ -20,7 +19,6 @@ def get_available_movies():
     conn.close()
     return [movie[0] for movie in movies]
 
-
 # Fetch available theaters
 def get_available_theaters():
     conn = get_sqlite_connection()
@@ -29,7 +27,6 @@ def get_available_theaters():
     theaters = c.fetchall()
     conn.close()
     return theaters
-
 
 # Fetch available theaters for a specific movie
 def get_theaters_by_movie(movie_name):
@@ -40,7 +37,6 @@ def get_theaters_by_movie(movie_name):
     theaters = c.fetchall()
     conn.close()
     return [theater[0] for theater in theaters]
-
 
 # Fetch timings for a specific theater
 def get_timings_by_theater(theater_name):
@@ -53,7 +49,6 @@ def get_timings_by_theater(theater_name):
     conn.close()
     return [timing[0] for timing in timings]
 
-
 # Fetch movie details
 def get_movie_details(movie_id):
     conn = get_sqlite_connection()
@@ -62,7 +57,6 @@ def get_movie_details(movie_id):
     movie = c.fetchone()
     conn.close()
     return movie
-
 
 # Fetch theater details
 def get_theater_details(theater_id):
@@ -73,7 +67,6 @@ def get_theater_details(theater_id):
     conn.close()
     return theater
 
-
 # Fetch booked seats for a movie
 def get_booked_seats(movie_id):
     conn = get_sqlite_connection()
@@ -82,7 +75,6 @@ def get_booked_seats(movie_id):
     booked_seats = c.fetchall()
     conn.close()
     return [seat[0] for seat in booked_seats]
-
 
 # Fetch bookings by movie
 def get_bookings_by_movie(movie_id):
@@ -93,7 +85,6 @@ def get_bookings_by_movie(movie_id):
     conn.close()
     return bookings
 
-
 # Book ticket
 def book_ticket(user_id, movie_id, theater_id, timing, seats):
     conn = get_sqlite_connection()
@@ -103,7 +94,6 @@ def book_ticket(user_id, movie_id, theater_id, timing, seats):
                   (user_id, movie_id, theater_id, timing, seat))
     conn.commit()
     conn.close()
-
 
 # Cancel booking
 def cancel_booking(user_id, movie_name, theater_name, timing, seats):
@@ -121,7 +111,6 @@ def cancel_booking(user_id, movie_name, theater_name, timing, seats):
     conn.commit()
     conn.close()
 
-
 # Fetch bookings for user
 def get_user_bookings(user_id):
     conn = get_sqlite_connection()
@@ -136,10 +125,6 @@ def get_user_bookings(user_id):
     bookings = c.fetchall()
     conn.close()
     return bookings
-
-
-# Spellchecker
-spell = SpellChecker()
 
 # Initialize session state for the chat
 if 'messages' not in st.session_state:
@@ -276,7 +261,6 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-
 # Ensure admin exists
 def ensure_admin_exists():
     conn = get_sqlite_connection()
@@ -292,7 +276,6 @@ def ensure_admin_exists():
         conn.commit()
     conn.close()
 
-
 ensure_admin_exists()
 
 # Session state initialization
@@ -307,7 +290,6 @@ if 'is_user' not in st.session_state:
 if 'page' not in st.session_state:
     st.session_state['page'] = 'login'
 
-
 # Login
 def login(username, password):
     conn = get_sqlite_connection()
@@ -316,7 +298,6 @@ def login(username, password):
     user = c.fetchone()
     conn.close()
     return user
-
 
 # Sign up
 def sign_up(username, password, phone):
@@ -331,7 +312,6 @@ def sign_up(username, password, phone):
         return False
     finally:
         conn.close()
-
 
 # Add theater owner
 def add_theater_owner(username, password, phone, theater_name):
@@ -350,7 +330,6 @@ def add_theater_owner(username, password, phone, theater_name):
     finally:
         conn.close()
 
-
 # Remove user
 def remove_user(user_id):
     conn = get_sqlite_connection()
@@ -359,7 +338,6 @@ def remove_user(user_id):
     c.execute("DELETE FROM theaters WHERE owner_id = ?", (user_id,))
     conn.commit()
     conn.close()
-
 
 # Add movie
 def add_movie(owner_id, name, city, theater_id, timings, seats):
@@ -370,7 +348,6 @@ def add_movie(owner_id, name, city, theater_id, timings, seats):
     conn.commit()
     conn.close()
 
-
 # Remove movie
 def remove_movie(movie_id):
     conn = get_sqlite_connection()
@@ -378,7 +355,6 @@ def remove_movie(movie_id):
     c.execute("DELETE FROM movies WHERE id = ?", (movie_id,))
     conn.commit()
     conn.close()
-
 
 # Cancel Ticket User Interface
 def cancel_ticket():
@@ -417,7 +393,6 @@ def cancel_ticket():
             else:
                 st.warning("No seats selected for cancellation. Please select seats to cancel.")
 
-
 # Fetch registered movies
 def get_registered_movies():
     conn = get_sqlite_connection()
@@ -426,7 +401,6 @@ def get_registered_movies():
     movies = c.fetchall()
     conn.close()
     return movies
-
 
 # Fetch registered theaters
 def get_registered_theaters():
@@ -437,7 +411,6 @@ def get_registered_theaters():
     conn.close()
     return theaters
 
-
 # Fetch registered users
 def get_registered_users():
     conn = get_sqlite_connection()
@@ -447,7 +420,6 @@ def get_registered_users():
     conn.close()
     return users
 
-
 # Fetch registered owners
 def get_registered_owners():
     conn = get_sqlite_connection()
@@ -456,7 +428,6 @@ def get_registered_owners():
     owners = c.fetchall()
     conn.close()
     return owners
-
 
 # User Interface Components
 def user_login():
@@ -475,7 +446,6 @@ def user_login():
         else:
             st.error("Invalid credentials")
 
-
 def user_signup():
     st.subheader("Sign Up")
     username = st.text_input("New Username")
@@ -488,7 +458,6 @@ def user_signup():
             st.experimental_rerun()
         else:
             st.error("Username already exists")
-
 
 def view_bookings():
     st.subheader("Your Bookings")
@@ -506,7 +475,6 @@ def view_bookings():
                 st.write(f"Movie: {movie[1]}, Theater: {theater[1]}, Time: {booking[4]}, Seats: {booking[5]}")
         else:
             st.write("No bookings found")
-
 
 def admin_controls():
     if st.session_state['is_admin']:
@@ -569,7 +537,6 @@ def admin_controls():
             else:
                 st.error("Username already exists")
 
-
 def owner_controls():
     if st.session_state['is_owner']:
         st.subheader("Owner Controls")
@@ -621,26 +588,24 @@ def owner_controls():
                     st.write(
                         f"Movie: {movie[1]}, User: {user[1]}, Phone: {user[3]}, Time: {booking[4]}, Seats: {booking[5]}")
 
-
 # Function to handle user input
 def handle_input():
     user_input = st.session_state.user_input
     st.session_state['messages'].append(("user", user_input))
-    corrected_input = ' '.join([spell.correction(word) for word in user_input.split()])
 
-    if "movies" in corrected_input.lower():
+    if "movies" in user_input.lower():
         movies = get_available_movies()
         if movies:
             response = "Available movies:\n" + "\n".join(movies)
         else:
             response = "No movies available."
-    elif "theaters" in corrected_input.lower():
+    elif "theaters" in user_input.lower():
         theaters = get_available_theaters()
         if theaters:
             response = "Available theaters:\n" + "\n".join([f"{theater[0]} in {theater[1]}" for theater in theaters])
         else:
             response = "No theaters available."
-    elif "book" in corrected_input.lower() or "seats" in corrected_input.lower():
+    elif "book" in user_input.lower() or "seats" in user_input.lower():
         st.session_state['page'] = 'book_tickets'
         response = "Redirecting to booking interface..."
     else:
@@ -648,7 +613,6 @@ def handle_input():
 
     st.session_state['messages'].append(("bot", response))
     st.session_state.user_input = ""  # Clear input field
-
 
 # Main Application Logic
 st.sidebar.title("Online Movie Ticket Booking")
